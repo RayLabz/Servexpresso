@@ -6,53 +6,56 @@ package com.raylabz.servexpresso;
 public class ServiceInputParam extends ServiceParam {
 
     /**
-     * The parsed value.
+     * The parsed values.
      */
-    private final Object value;
+    private final Object[] values;
 
     /**
-     * The raw string-based value.
+     * The raw string-based values (Array of Strings).
      */
-    private final String rawValue;
+    private final String[] rawValues;
 
     /**
      * Instantiates a new input parameter.
      * @param name The name of the parameter.
      * @param type The type of the parameter.
-     * @param rawValue The raw value of the parameter - in string format.
+     * @param rawValues The raw values of the parameter - in string format.
      */
-    public ServiceInputParam(String name, ParamType type, String rawValue) {
+    public ServiceInputParam(String name, ParamType type, String... rawValues) {
         super(name, type, false);
-        this.rawValue = rawValue;
-        this.value = TypeParser.parseValue(rawValue);
+        this.rawValues = rawValues;
+        this.values = TypeParser.parseValues(rawValues);
     }
 
     /**
      * Instantiates a new input parameter.
      * @param name The name of the parameter.
      * @param type The type of the parameter.
-     * @param rawValue The raw value of the parameter as an object.
+     * @param values The raw value of the parameter as an object.
      */
-    public ServiceInputParam(String name, ParamType type, Object rawValue) {
+    public ServiceInputParam(String name, ParamType type, Object... values) {
         super(name, type, false);
-        this.rawValue = rawValue.toString();
-        this.value = TypeParser.parseValue(rawValue.toString());
+        this.values = values;
+        this.rawValues = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            rawValues[i] = values[i].toString();
+        }
     }
 
     /**
-     * Retrieves the value of this input parameter.
+     * Retrieves the values of this parameter.
      * @return Returns a generic Object.
      */
-    public Object getValue() {
-        return value;
+    public Object[] getValues() {
+        return values;
     }
 
     /**
-     * Retreieves the raw value of this input parameter.
-     * @return Returns a string-formatted value.
+     * Retrieves the raw values of this input parameter.
+     * @return Returns an array of string-formatted values.
      */
-    public String getRawValue() {
-        return rawValue;
+    public String[] getRawValues() {
+        return rawValues;
     }
 
 }

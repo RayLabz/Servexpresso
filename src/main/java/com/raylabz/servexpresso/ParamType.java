@@ -24,7 +24,7 @@ public enum ParamType {
     /**
      * Retrieves the translated type for a ServiceParameterType
      */
-    private Class<?> translatedType;
+    private final Class<?> translatedType;
 
     /**
      * Instantiates a new ServiceParameterType
@@ -44,7 +44,7 @@ public enum ParamType {
 
     /**
      * Parses a given rawValue and determines the type of ServiceParameterType it represents.
-     * @param rawValue A rawValue value.
+     * @param rawValues The array of rawValues received from the inputs.
      * @return Returns a ServiceParameterType.
      */
     public static ParamType fromRawValues(String[] rawValues) {
@@ -68,21 +68,89 @@ public enum ParamType {
                 break;
             }
         }
-        if (isUnsignedInt) return BOOLEAN;
+        if (isUnsignedInt) return UNSIGNED_INTEGER;
 
-        //TODO - DO THIS FOR THE REST OF THESE TYPES.
+        //Integer check:
+        boolean isInt = true;
+        for (final String rawValue : rawValues) {
+            if (!TypeParser.isInteger(rawValue)) {
+                isInt = false;
+                break;
+            }
+        }
+        if (isInt) return INTEGER;
+
+        //Unsigned long check:
+        boolean isUnsignedLong = true;
+        for (final String rawValue : rawValues) {
+            if (!TypeParser.isUnsignedLong(rawValue)) {
+                isUnsignedLong = false;
+                break;
+            }
+        }
+        if (isUnsignedLong) return UNSIGNED_LONG;
+
+        //Long check:
+        boolean isLong = true;
+        for (final String rawValue : rawValues) {
+            if (!TypeParser.isLong(rawValue)) {
+                isLong = false;
+                break;
+            }
+        }
+        if (isLong) return LONG;
+
+        //Unsigned short check:
+        boolean isUnsignedShort = true;
+        for (final String rawValue : rawValues) {
+            if (!TypeParser.isUnsignedShort(rawValue)) {
+                isUnsignedShort = false;
+                break;
+            }
+        }
+        if (isUnsignedShort) return UNSIGNED_SHORT;
+
+        //Short check:
+        boolean isShort = true;
+        for (final String rawValue : rawValues) {
+            if (!TypeParser.isShort(rawValue)) {
+                isShort = false;
+                break;
+            }
+        }
+        if (isShort) return SHORT;
+
+        //Unsigned double check:
+        boolean isUnsignedDouble = true;
+        for (final String rawValue : rawValues) {
+            if (!TypeParser.isUnsignedDouble(rawValue)) {
+                isUnsignedDouble = false;
+                break;
+            }
+        }
+        if (isUnsignedDouble) return UNSIGNED_DOUBLE;
+
+        //Double check:
+        boolean isDouble = true;
+        for (final String rawValue : rawValues) {
+            if (!TypeParser.isDouble(rawValue)) {
+                isDouble = false;
+                break;
+            }
+        }
+        if (isDouble) return DOUBLE;
 
 
-        if (TypeParser.isBoolean(rawValue)) return BOOLEAN;
-        if (TypeParser.isUnsignedInteger(rawValue)) return UNSIGNED_INTEGER;
-        if (TypeParser.isInteger(rawValue)) return INTEGER;
-        if (TypeParser.isUnsignedLong(rawValue)) return UNSIGNED_LONG;
-        if (TypeParser.isLong(rawValue)) return LONG;
-        if (TypeParser.isUnsignedShort(rawValue)) return UNSIGNED_SHORT;
-        if (TypeParser.isShort(rawValue)) return SHORT;
-        if (TypeParser.isUnsignedDouble(rawValue)) return UNSIGNED_DOUBLE;
-        if (TypeParser.isDouble(rawValue)) return DOUBLE;
-        if (TypeParser.isJSON(rawValue)) return JSON;
+        //JSON check:
+        boolean isJSON = true;
+        for (final String rawValue : rawValues) {
+            if (!TypeParser.isJSON(rawValue)) {
+                isJSON = false;
+                break;
+            }
+        }
+        if (isJSON) return JSON;
+
         return STRING;
     }
 

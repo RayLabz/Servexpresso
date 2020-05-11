@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Models an input parameters map.
  */
-public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
+public class InputParamsMap extends HashMap<String, ServiceInputParam> {
 
     /**
      * Retrieves the number of values provided for a parameter.
@@ -16,7 +16,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
      * @return Returns an integer.
      */
     public final int countParamValues(final String paramName) {
-        return get(paramName).length;
+        return get(paramName).getValues().length;
     }
 
     /**
@@ -25,7 +25,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
      * @return Returns a boolean.
      */
     public boolean getBoolean(final String paramName) {
-        return (boolean) get(paramName)[0].getValue();
+        return (boolean) get(paramName).getValues()[0];
     }
 
     /**
@@ -38,7 +38,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
         if (index >= valueCount) {
             throw new ValueIndexOutOfRangeException(index, paramName, valueCount);
         }
-        return (boolean) get(paramName)[index].getValue();
+        return (boolean) get(paramName).getValues()[index];
     }
 
     /**
@@ -60,7 +60,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
      * @return Returns an integer.
      */
     public int getInt(final String paramName) {
-        return (int) get(paramName)[0].getValue();
+        return (int) get(paramName).getValues()[0];
     }
 
     /**
@@ -73,7 +73,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
         if (index >= valueCount) {
             throw new ValueIndexOutOfRangeException(index, paramName, valueCount);
         }
-        return (int) get(paramName)[index].getValue();
+        return (int) get(paramName).getValues()[index];
     }
 
     /**
@@ -95,7 +95,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
      * @return Returns a long.
      */
     public long getLong(final String paramName) {
-        return (long) get(paramName)[0].getValue();
+        return (long) get(paramName).getValues()[0];
     }
 
     /**
@@ -108,7 +108,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
         if (index >= valueCount) {
             throw new ValueIndexOutOfRangeException(index, paramName, valueCount);
         }
-        return (long) get(paramName)[index].getValue();
+        return (long) get(paramName).getValues()[index];
     }
 
     /**
@@ -130,7 +130,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
      * @return Returns a short.
      */
     public short getShort(final String paramName) {
-        return (short) get(paramName)[0].getValue();
+        return (short) get(paramName).getValues()[0];
     }
 
     /**
@@ -143,7 +143,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
         if (index >= valueCount) {
             throw new ValueIndexOutOfRangeException(index, paramName, valueCount);
         }
-        return (short) get(paramName)[index].getValue();
+        return (short) get(paramName).getValues()[index];
     }
 
     /**
@@ -165,7 +165,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
      * @return Returns a double.
      */
     public double getDouble(final String paramName) {
-        return (double) get(paramName)[0].getValue();
+        return (double) get(paramName).getValues()[0];
     }
 
     /**
@@ -178,7 +178,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
         if (index >= valueCount) {
             throw new ValueIndexOutOfRangeException(index, paramName, valueCount);
         }
-        return (double) get(paramName)[index].getValue();
+        return (double) get(paramName).getValues()[index];
     }
 
     /**
@@ -200,7 +200,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
      * @return Returns a JSON-formatted string.
      */
     public String getJSON(final String paramName) {
-        return (String) get(paramName)[0].getValue();
+        return (String) get(paramName).getValues()[0];
     }
 
     /**
@@ -213,7 +213,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
         if (index >= valueCount) {
             throw new ValueIndexOutOfRangeException(index, paramName, valueCount);
         }
-        return (String) get(paramName)[index].getValue();
+        return (String) get(paramName).getValues()[index];
     }
 
     /**
@@ -235,7 +235,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
      * @return Returns a string.
      */
     public String getString(final String paramName) {
-        return (String) get(paramName)[0].getValue();
+        return (String) get(paramName).getValues()[0];
     }
 
     /**
@@ -248,7 +248,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
         if (index >= valueCount) {
             throw new ValueIndexOutOfRangeException(index, paramName, valueCount);
         }
-        return (String) get(paramName)[index].getValue();
+        return (String) get(paramName).getValues()[index];
     }
 
     /**
@@ -275,7 +275,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam[]> {
         for (Map.Entry<String, String[]> entry : servletParamsStringMap.entrySet()) {
             final String paramName = entry.getKey();
             final String[] paramRawValue = entry.getValue();
-            final ParamType paramType = ParamType.fromRawValues(paramRawValue); //TODO
+            final ParamType paramType = ParamType.fromRawValues(paramRawValue);
             ServiceInputParam inputParam = new ServiceInputParam(paramName, paramType, paramRawValue);
             inputParamsMap.put(inputParam.getName(), inputParam);
         }

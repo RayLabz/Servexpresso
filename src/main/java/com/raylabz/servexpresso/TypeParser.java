@@ -283,23 +283,27 @@ public class TypeParser {
     }
 
     /**
-     * Returns the value of an input parameter using its raw (String) value.
-     * @param rawValue The string-formatted raw value of the input parameter.
-     * @return Returns a generic object constricted to the types listed in ServiceParamType.
+     * Returns an array of raw values as object based on their raw (String) value.
+     * @param rawValues The string-formatted raw value of the input parameter.
+     * @return Returns a generic object array constricted to the types listed in ServiceParamType.
      */
-    public static Object parseValue(final String rawValue) {
+    public static Object[] parseValues(final String[] rawValues) {
         //Important note: The parsing order matters.
-        if (isBoolean(rawValue)) return getBoolean(rawValue);
-        if (isUnsignedInteger(rawValue)) return getUnsignedInteger(rawValue);
-        if (isInteger(rawValue)) return getInteger(rawValue);
-        if (isUnsignedLong(rawValue)) return getUnsignedLong(rawValue);
-        if (isLong(rawValue)) return getLong(rawValue);
-        if (isUnsignedShort(rawValue)) return getUnsignedShort(rawValue);
-        if (isShort(rawValue)) return getShort(rawValue);
-        if (isUnsignedDouble(rawValue)) return getUnsignedDouble(rawValue);
-        if (isDouble(rawValue)) return getDouble(rawValue);
-        if (isJSON(rawValue)) return getJSON(rawValue);
-        return rawValue;
+        Object[] rawObjects = new Object[rawValues.length];
+        for (int i = 0; i < rawValues.length; i++) {
+            if (isBoolean(rawValues[i])) rawObjects[i] = getBoolean(rawValues[i]);
+            if (isUnsignedInteger(rawValues[i])) rawObjects[i] = getUnsignedInteger(rawValues[i]);
+            if (isInteger(rawValues[i])) rawObjects[i] = getInteger(rawValues[i]);
+            if (isUnsignedLong(rawValues[i])) rawObjects[i] = getUnsignedLong(rawValues[i]);
+            if (isLong(rawValues[i])) rawObjects[i] = getLong(rawValues[i]);
+            if (isUnsignedShort(rawValues[i])) rawObjects[i] = getUnsignedShort(rawValues[i]);
+            if (isShort(rawValues[i])) rawObjects[i] = getShort(rawValues[i]);
+            if (isUnsignedDouble(rawValues[i])) rawObjects[i] = getUnsignedDouble(rawValues[i]);
+            if (isDouble(rawValues[i])) rawObjects[i] = getDouble(rawValues[i]);
+            if (isJSON(rawValues[i])) rawObjects[i] = getJSON(rawValues[i]);
+            rawObjects[i] = rawValues[i];
+        }
+        return rawObjects;
     }
 
     /**
@@ -311,36 +315,107 @@ public class TypeParser {
         switch (param.getType()) {
 
             case BOOLEAN:
-                return isBoolean(param.getRawValue());
+
+                boolean isBoolean = true;
+                for (final String rawValue : param.getRawValues()) {
+                    if (!isBoolean(rawValue)) {
+                        isBoolean = false;
+                    }
+                }
+                return isBoolean;
 
             case UNSIGNED_DOUBLE:
-                return isUnsignedDouble(param.getRawValue());
+
+                boolean isUnsignedDouble = true;
+                for (final String rawValue : param.getRawValues()) {
+                    if (!isUnsignedDouble(rawValue)) {
+                        isUnsignedDouble = false;
+                    }
+                }
+                return isUnsignedDouble;
 
             case DOUBLE:
-                return isDouble(param.getRawValue());
+
+                boolean isDouble = true;
+                for (final String rawValue : param.getRawValues()) {
+                    if (!isDouble(rawValue)) {
+                        isDouble = false;
+                    }
+                }
+                return isDouble;
 
             case UNSIGNED_INTEGER:
-                return isUnsignedInteger(param.getRawValue());
+
+                boolean isUnsignedInt = true;
+                for (final String rawValue : param.getRawValues()) {
+                    if (!isUnsignedInteger(rawValue)) {
+                        isUnsignedInt = false;
+                    }
+                }
+                return isUnsignedInt;
 
             case INTEGER:
-                return isInteger(param.getRawValue());
+
+                boolean isInt = true;
+                for (final String rawValue : param.getRawValues()) {
+                    if (!isInteger(rawValue)) {
+                        isInt = false;
+                    }
+                }
+                return isInt;
 
             case UNSIGNED_LONG:
-                return isUnsignedLong(param.getRawValue());
+
+                boolean isUnsignedLong = true;
+                for (final String rawValue : param.getRawValues()) {
+                    if (!isUnsignedLong(rawValue)) {
+                        isUnsignedLong = false;
+                    }
+                }
+                return isUnsignedLong;
 
             case LONG:
-                return isLong(param.getRawValue());
+
+                boolean isLong = true;
+                for (final String rawValue : param.getRawValues()) {
+                    if (!isLong(rawValue)) {
+                        isLong = false;
+                    }
+                }
+                return isLong;
 
             case UNSIGNED_SHORT:
-                return isUnsignedShort(param.getRawValue());
+
+                boolean isUnsignedShort = true;
+                for (final String rawValue : param.getRawValues()) {
+                    if (!isUnsignedShort(rawValue)) {
+                        isUnsignedShort = false;
+                    }
+                }
+                return isUnsignedShort;
 
             case SHORT:
-                return isShort(param.getRawValue());
+
+                boolean isShort = true;
+                for (final String rawValue : param.getRawValues()) {
+                    if (!isShort(rawValue)) {
+                        isShort = false;
+                    }
+                }
+                return isShort;
 
             case JSON:
-                return isJSON(param.getRawValue());
+
+                boolean isJSON = true;
+                for (final String rawValue : param.getRawValues()) {
+                    if (!isJSON(rawValue)) {
+                        isJSON = false;
+                    }
+                }
+                return isJSON;
 
             case STRING:
+
                 return true;
 
             default:
