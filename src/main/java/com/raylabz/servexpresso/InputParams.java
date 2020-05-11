@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Models an input parameters map.
  */
-public class InputParamsMap extends HashMap<String, ServiceInputParam> {
+public class InputParams extends HashMap<String, ServiceInputParam> {
 
     /**
      * Retrieves the number of values provided for a parameter.
@@ -31,6 +31,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam> {
     /**
      * Retrieves a boolean value for a parameter.
      * @param paramName The parameter's name to retrieve.
+     * @param index The index of the value.
      * @return Returns a boolean.
      */
     public boolean getBoolean(final String paramName, final int index) throws ValueIndexOutOfRangeException {
@@ -66,6 +67,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam> {
     /**
      * Retrieves an integer value for a parameter.
      * @param paramName The parameter's name to retrieve.
+     * @param index The index of the value.
      * @return Returns an integer.
      */
     public int getInt(final String paramName, final int index) throws ValueIndexOutOfRangeException {
@@ -101,6 +103,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam> {
     /**
      * Retrieves a long value for a parameter.
      * @param paramName The parameter's name to retrieve.
+     * @param index The index of the value.
      * @return Returns a long.
      */
     public long getLong(final String paramName, final int index) throws ValueIndexOutOfRangeException {
@@ -136,6 +139,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam> {
     /**
      * Retrieves a short value for a parameter.
      * @param paramName The parameter's name to retrieve.
+     * @param index The index of the value.
      * @return Returns a short.
      */
     public short getShort(final String paramName, final int index) throws ValueIndexOutOfRangeException {
@@ -171,6 +175,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam> {
     /**
      * Retrieves a double value for a parameter.
      * @param paramName The parameter's name to retrieve.
+     * @param index The index of the value.
      * @return Returns a double.
      */
     public double getDouble(final String paramName, final int index) throws ValueIndexOutOfRangeException {
@@ -206,6 +211,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam> {
     /**
      * Retrieves a JSON text value for a parameter.
      * @param paramName The parameter's name to retrieve.
+     * @param index The index of the value.
      * @return Returns a JSON text string.
      */
     public String getJSON(final String paramName, final int index) throws ValueIndexOutOfRangeException {
@@ -241,6 +247,7 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam> {
     /**
      * Retrieves a String value for a parameter.
      * @param paramName The parameter's name to retrieve.
+     * @param index The index of the value.
      * @return Returns a string.
      */
     public String getString(final String paramName, final int index) throws ValueIndexOutOfRangeException {
@@ -269,17 +276,17 @@ public class InputParamsMap extends HashMap<String, ServiceInputParam> {
      * @param servletParamsMap The servlet input parameters.
      * @return Returns an InputParamsMap.
      */
-    public static InputParamsMap fromServletParams(final Map servletParamsMap) {
+    public static InputParams fromServletParams(final Map servletParamsMap) {
         final Map<String, String[]> servletParamsStringMap = (Map<String, String[]>) servletParamsMap;
-        InputParamsMap inputParamsMap = new InputParamsMap();
+        InputParams inputParams = new InputParams();
         for (Map.Entry<String, String[]> entry : servletParamsStringMap.entrySet()) {
             final String paramName = entry.getKey();
             final String[] paramRawValue = entry.getValue();
             final ParamType paramType = ParamType.fromRawValues(paramRawValue);
             ServiceInputParam inputParam = new ServiceInputParam(paramName, paramType, paramRawValue);
-            inputParamsMap.put(inputParam.getName(), inputParam);
+            inputParams.put(inputParam.getName(), inputParam);
         }
-        return inputParamsMap;
+        return inputParams;
     }
 
 }

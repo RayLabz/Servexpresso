@@ -291,17 +291,41 @@ public class TypeParser {
         //Important note: The parsing order matters.
         Object[] rawObjects = new Object[rawValues.length];
         for (int i = 0; i < rawValues.length; i++) {
-            if (isBoolean(rawValues[i])) rawObjects[i] = getBoolean(rawValues[i]);
-            if (isUnsignedInteger(rawValues[i])) rawObjects[i] = getUnsignedInteger(rawValues[i]);
-            if (isInteger(rawValues[i])) rawObjects[i] = getInteger(rawValues[i]);
-            if (isUnsignedLong(rawValues[i])) rawObjects[i] = getUnsignedLong(rawValues[i]);
-            if (isLong(rawValues[i])) rawObjects[i] = getLong(rawValues[i]);
-            if (isUnsignedShort(rawValues[i])) rawObjects[i] = getUnsignedShort(rawValues[i]);
-            if (isShort(rawValues[i])) rawObjects[i] = getShort(rawValues[i]);
-            if (isUnsignedDouble(rawValues[i])) rawObjects[i] = getUnsignedDouble(rawValues[i]);
-            if (isDouble(rawValues[i])) rawObjects[i] = getDouble(rawValues[i]);
-            if (isJSON(rawValues[i])) rawObjects[i] = getJSON(rawValues[i]);
-            rawObjects[i] = rawValues[i];
+
+            if (isBoolean(rawValues[i])) {
+                rawObjects[i] = getBoolean(rawValues[i]);
+            }
+            else if (isUnsignedInteger(rawValues[i])) {
+                rawObjects[i] = getUnsignedInteger(rawValues[i]);
+            }
+            else if (isInteger(rawValues[i])) {
+                rawObjects[i] = getInteger(rawValues[i]);
+            }
+            else if (isUnsignedLong(rawValues[i])) {
+                rawObjects[i] = getUnsignedLong(rawValues[i]);
+            }
+            else if (isLong(rawValues[i])) {
+                rawObjects[i] = getLong(rawValues[i]);
+            }
+            else if (isUnsignedShort(rawValues[i])) {
+                rawObjects[i] = getUnsignedShort(rawValues[i]);
+            }
+            else if (isShort(rawValues[i])) {
+                rawObjects[i] = getShort(rawValues[i]);
+            }
+            else if (isUnsignedDouble(rawValues[i])) {
+                rawObjects[i] = getUnsignedDouble(rawValues[i]);
+            }
+            else if (isDouble(rawValues[i])) {
+                rawObjects[i] = getDouble(rawValues[i]);
+            }
+            else if (isJSON(rawValues[i])) {
+                rawObjects[i] = getJSON(rawValues[i]);
+            }
+            else {
+                rawObjects[i] = rawValues[i];
+            }
+
         }
         return rawObjects;
     }

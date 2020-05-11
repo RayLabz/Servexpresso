@@ -12,6 +12,6 @@ public interface Serviceable {
      * @param params The parameters provided to the serviceable.
      * @return Returns a response.
      */
-    Response serve(InputParamsMap params);
+    Response serve(InputParams params);
 
 }

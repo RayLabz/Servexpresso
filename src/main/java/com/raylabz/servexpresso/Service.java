@@ -26,12 +26,12 @@ public class Service {
     /**
      * A map of all expected parameters.
      */
-    private final ParamsMap expectedParams;
+    private final Params expectedParams;
 
     /**
      * A map of all received parameters.
      */
-    private final InputParamsMap receivedParams = new InputParamsMap();
+    private final InputParams receivedParams = new InputParams();
 
     /**
      * The serviceable of this Service, which determines what happens when this service is called. Must be non-null before calling,
@@ -43,7 +43,7 @@ public class Service {
      * Instantiates a service - this method is called by Service.Builder.
      * @param expectedParams The parameters expected by this service.
      */
-    private Service(ParamsMap expectedParams, Serviceable serviceable) {
+    private Service(Params expectedParams, Serviceable serviceable) {
         this.expectedParams = expectedParams;
         this.serviceable = serviceable;
     }
@@ -53,9 +53,9 @@ public class Service {
      * @param receivedParams The provided params.
      * @return Returns an ArrayList of MissingParamError.
      */
-    private ArrayList<MissingParamError> checkForMissingParams(InputParamsMap receivedParams) {
+    private ArrayList<MissingParamError> checkForMissingParams(InputParams receivedParams) {
         ArrayList<MissingParamError> errors = new ArrayList<>();
-        for (ParamsMap.Entry<String, ServiceParam> entry : expectedParams.entrySet()) {
+        for (Params.Entry<String, ServiceParam> entry : expectedParams.entrySet()) {
             final ServiceParam expectedParam = entry.getValue();
             final ServiceInputParam inputParam = receivedParams.get(expectedParam.getName());
             if (inputParam == null && expectedParam.isRequired()) {
@@ -70,9 +70,9 @@ public class Service {
      * @param receivedParams The provided params.
      * @return Returns an ArrayList of TypeMismatchParamError.
      */
-    private ArrayList<TypeMismatchParamError> checkForParamTypes(InputParamsMap receivedParams) {
+    private ArrayList<TypeMismatchParamError> checkForParamTypes(InputParams receivedParams) {
         ArrayList<TypeMismatchParamError> errors = new ArrayList<>();
-        for (ParamsMap.Entry<String, ServiceParam> entry : expectedParams.entrySet()) {
+        for (Params.Entry<String, ServiceParam> entry : expectedParams.entrySet()) {
             final ServiceParam expectedParam = entry.getValue();
             final ServiceInputParam inputParam = receivedParams.get(expectedParam.getName());
             if (inputParam != null) {
@@ -86,25 +86,25 @@ public class Service {
 
     /**
      * Processes a request for this service using the specified input parameters.
-     * @param inputParamsMap A map containing the parameters provided to this service.
+     * @param inputParams A map containing the parameters provided to this service.
      * @return Returns a Response object.
      */
-    public Response processRequest(InputParamsMap inputParamsMap) {
+    public Response processRequest(InputParams inputParams) {
         //Check for missing parameters:
-        ArrayList<MissingParamError> missingParamErrors = checkForMissingParams(inputParamsMap);
+        ArrayList<MissingParamError> missingParamErrors = checkForMissingParams(inputParams);
         if (missingParamErrors.size() > 0) {
             return new MissingParametersResponse(missingParamErrors);
         }
 
         //Check for invalid types:
-        ArrayList<TypeMismatchParamError> typeMismatchParamErrors = checkForParamTypes(inputParamsMap);
+        ArrayList<TypeMismatchParamError> typeMismatchParamErrors = checkForParamTypes(inputParams);
         if (typeMismatchParamErrors.size() > 0) {
             return new TypeMismatchResponse(typeMismatchParamErrors);
         }
 
         //If no errors, serve but catch any exceptions that the service fails to catch:
         try {
-            return serviceable.serve(inputParamsMap);
+            return serviceable.serve(inputParams);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +118,7 @@ public class Service {
      * @return Returns a Response object.
      */
     public Response processRequest(ServiceInputParam... inputParams) {
-        InputParamsMap map = new InputParamsMap();
+        InputParams map = new InputParams();
         for (final ServiceInputParam param : inputParams) {
             map.put(param.getName(), param);
         }
@@ -133,7 +133,7 @@ public class Service {
         /**
          * A map of a service's expected parameters.
          */
-        private final ParamsMap expectedParameters = new ParamsMap();
+        private final Params expectedParameters = new Params();
 
         /**
          * Instantiates a new Service.Builder.
@@ -185,14 +185,14 @@ public class Service {
         /**
          * The service's expected parameters.
          */
-        private final ParamsMap expectedParameters;
+        private final Params expectedParameters;
 
         /**
          * Constructs an ImplementedBuilder.
          * @param serviceable The serviceable.
          * @param expectedParameters The expected parameters.
          */
-        public ImplementedBuilder(Serviceable serviceable, ParamsMap expectedParameters) {
+        public ImplementedBuilder(Serviceable serviceable, Params expectedParameters) {
             this.serviceable = serviceable;
             this.expectedParameters = expectedParameters;
         }
@@ -227,7 +227,7 @@ public class Service {
      * Retrieves the map of expected parameters for this service.
      * @return Returns a ParamsMap.
      */
-    public ParamsMap getExpectedParams() {
+    public Params getExpectedParams() {
         return expectedParams;
     }
 
@@ -235,7 +235,7 @@ public class Service {
      * Retrieves the map of received parameters for this service.
      * @return Returns an InputParamsMap.
      */
-    public InputParamsMap getReceivedParams() {
+    public InputParams getReceivedParams() {
         return receivedParams;
     }
 
