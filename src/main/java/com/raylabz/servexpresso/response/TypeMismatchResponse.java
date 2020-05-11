@@ -20,16 +20,25 @@ public class TypeMismatchResponse extends ErrorResponse {
      */
     public TypeMismatchResponse(ArrayList<TypeMismatchParamError> typeMismatchParamErrors) {
         super("Invalid parameters", "");
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder errorStringBuilder = new StringBuilder();
         ArrayList<SimpleError> simpleErrors = new ArrayList<>();
         for (TypeMismatchParamError error : typeMismatchParamErrors) {
-            stringBuilder.append(error.getMessage()).append(System.lineSeparator());
             simpleErrors.add(new SimpleError(ServiceParamErrorType.TYPE_MISMATCH, error.getServiceParam().getName()));
         }
-        if (typeMismatchParamErrors.size() < 2) {
-            stringBuilder.delete(stringBuilder.length() - System.lineSeparator().length(), stringBuilder.length());
+
+        if (simpleErrors.size() > 1) {
+            errorStringBuilder = new StringBuilder("Missing parameters: ");
+            for (SimpleError e : simpleErrors) {
+                errorStringBuilder.append(e.getParamName()).append(", ");
+            }
+            errorStringBuilder.delete(errorStringBuilder.length() - 2, errorStringBuilder.length());
+            errorStringBuilder.append(".");
         }
-        setMessage(stringBuilder.toString());
+        else {
+            errorStringBuilder.append(typeMismatchParamErrors.get(0).getMessage());
+        }
+
+        setMessage(errorStringBuilder.toString());
         JsonObject data = new JsonObject();
         data.add("errors", JsonUtil.listToJsonArray(simpleErrors));
         setData(data);
