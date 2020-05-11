@@ -47,8 +47,32 @@ public enum ParamType {
      * @param rawValue A rawValue value.
      * @return Returns a ServiceParameterType.
      */
-    public static ParamType fromRawValue(String rawValue) {
+    public static ParamType fromRawValues(String[] rawValues) {
         //Important note: The parsing order matters.
+
+        //Boolean check:
+        boolean isBoolean = true;
+        for (final String rawValue : rawValues) {
+            if (!TypeParser.isBoolean(rawValue)) {
+                isBoolean = false;
+                break;
+            }
+        }
+        if (isBoolean) return BOOLEAN;
+
+        //Unsigned integer check:
+        boolean isUnsignedInt = true;
+        for (final String rawValue : rawValues) {
+            if (!TypeParser.isUnsignedInteger(rawValue)) {
+                isUnsignedInt = false;
+                break;
+            }
+        }
+        if (isUnsignedInt) return BOOLEAN;
+
+        //TODO - DO THIS FOR THE REST OF THESE TYPES.
+
+
         if (TypeParser.isBoolean(rawValue)) return BOOLEAN;
         if (TypeParser.isUnsignedInteger(rawValue)) return UNSIGNED_INTEGER;
         if (TypeParser.isInteger(rawValue)) return INTEGER;

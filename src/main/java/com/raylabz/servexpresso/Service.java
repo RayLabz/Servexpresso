@@ -1,5 +1,6 @@
 package com.raylabz.servexpresso;
 
+import com.raylabz.responz.ErrorResponse;
 import com.raylabz.responz.Response;
 import com.raylabz.servexpresso.error.MissingParamError;
 import com.raylabz.servexpresso.error.TypeMismatchParamError;
@@ -101,8 +102,14 @@ public class Service {
             return new TypeMismatchResponse(typeMismatchParamErrors);
         }
 
-        //If no errors, serve:
-        return serviceable.serve(inputParamsMap);
+        //If no errors, serve but catch any exceptions that the service fails to catch:
+        try {
+            return serviceable.serve(inputParamsMap);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ErrorResponse("Unexpected error", "The service has encountered an unexpected error.");
+        }
     }
 
     /**
