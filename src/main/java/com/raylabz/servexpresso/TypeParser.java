@@ -284,50 +284,55 @@ public class TypeParser {
 
     /**
      * Returns an array of raw values as object based on their raw (String) value.
-     * @param rawValues The string-formatted raw value of the input parameter.
+     * @param param The parameter to parse the values for.
+     * @param expectedType The expected type.
      * @return Returns a generic object array constricted to the types listed in ServiceParamType.
      */
-    public static Object[] parseValues(final String[] rawValues, final ParamType paramType) {
+    public static void parseValues(final InputParam param, final ExpectedParam expectedParam) {
         //Important note: The parsing order matters.
+
+        final ParamType expectedType = expectedParam.getType();
+        final String[] rawValues = param.getRawValues();
         Object[] rawObjects = new Object[rawValues.length];
+
         for (int i = 0; i < rawValues.length; i++) {
 
-            if (isBoolean(rawValues[i]) && paramType == ParamType.BOOLEAN) {
+            if (isBoolean(rawValues[i]) && expectedType == ParamType.BOOLEAN) {
                 rawObjects[i] = getBoolean(rawValues[i]);
             }
-            else if (isUnsignedInteger(rawValues[i]) && paramType == ParamType.UNSIGNED_INTEGER) {
+            else if (isUnsignedInteger(rawValues[i]) && expectedType == ParamType.UNSIGNED_INTEGER) {
                 rawObjects[i] = getUnsignedInteger(rawValues[i]);
             }
-            else if (isInteger(rawValues[i]) && paramType == ParamType.INTEGER) {
+            else if (isInteger(rawValues[i]) && expectedType == ParamType.INTEGER) {
                 rawObjects[i] = getInteger(rawValues[i]);
             }
-            else if (isUnsignedLong(rawValues[i]) && paramType == ParamType.UNSIGNED_LONG) {
+            else if (isUnsignedLong(rawValues[i]) && expectedType == ParamType.UNSIGNED_LONG) {
                 rawObjects[i] = getUnsignedLong(rawValues[i]);
             }
-            else if (isLong(rawValues[i]) && paramType == ParamType.LONG) {
+            else if (isLong(rawValues[i]) && expectedType == ParamType.LONG) {
                 rawObjects[i] = getLong(rawValues[i]);
             }
-            else if (isUnsignedShort(rawValues[i]) && paramType == ParamType.UNSIGNED_SHORT) {
+            else if (isUnsignedShort(rawValues[i]) && expectedType == ParamType.UNSIGNED_SHORT) {
                 rawObjects[i] = getUnsignedShort(rawValues[i]);
             }
-            else if (isShort(rawValues[i]) && paramType == ParamType.SHORT) {
+            else if (isShort(rawValues[i]) && expectedType == ParamType.SHORT) {
                 rawObjects[i] = getShort(rawValues[i]);
             }
-            else if (isUnsignedDouble(rawValues[i]) && paramType == ParamType.UNSIGNED_DOUBLE) {
+            else if (isUnsignedDouble(rawValues[i]) && expectedType == ParamType.UNSIGNED_DOUBLE) {
                 rawObjects[i] = getUnsignedDouble(rawValues[i]);
             }
-            else if (isDouble(rawValues[i]) && paramType == ParamType.DOUBLE) {
+            else if (isDouble(rawValues[i]) && expectedType == ParamType.DOUBLE) {
                 rawObjects[i] = getDouble(rawValues[i]);
             }
-            else if (isJSON(rawValues[i]) && paramType == ParamType.JSON) {
+            else if (isJSON(rawValues[i]) && expectedType == ParamType.JSON) {
                 rawObjects[i] = getJSON(rawValues[i]);
             }
-            else if (paramType == ParamType.STRING){
+            else if (expectedType == ParamType.STRING){
                 rawObjects[i] = rawValues[i];
             }
 
         }
-        return rawObjects;
+        param.setValues(rawObjects);
     }
 
     /**
@@ -335,9 +340,8 @@ public class TypeParser {
      * @param param The parameter.
      * @return Returns a ParamType.
      */
-    public static ParamType findType(final ServiceInputParam param) {
+    public static ParamType findType(final InputParam param, final ParamType expectedType) {
 
-        final ParamType expectedType = param.getType();
         ParamType previousType = null;
         ParamType currentType = null;
 
@@ -448,115 +452,6 @@ public class TypeParser {
             }
         }
         return currentType;
-    }
-
-    /**
-     * Checks if a specified parameter's raw value is a valid type.
-     * @param param The parameter.
-     * @return Returns true if the parameter's raw value is a valid type, false otherwise.
-     */
-    public static boolean checkParamType(final ServiceInputParam param) {
-        switch (param.getType()) {
-
-            case BOOLEAN:
-
-                for (final String rawValue : param.getRawValues()) {
-                    if (!isBoolean(rawValue)) {
-                        return false;
-                    }
-                }
-                return true;
-
-            case UNSIGNED_DOUBLE:
-
-                for (final String rawValue : param.getRawValues()) {
-                    if (!isUnsignedDouble(rawValue)) {
-                        return false;
-                    }
-                }
-                return true;
-
-            case DOUBLE:
-
-                for (final String rawValue : param.getRawValues()) {
-                    if (!isDouble(rawValue)) {
-                        return false;
-                    }
-                }
-                return true;
-
-            case UNSIGNED_INTEGER:
-
-                for (final String rawValue : param.getRawValues()) {
-                    if (!isUnsignedInteger(rawValue)) {
-                        return false;
-                    }
-                }
-                return true;
-
-            case INTEGER:
-
-                for (final String rawValue : param.getRawValues()) {
-                    if (!isInteger(rawValue)) {
-                        return false;
-                    }
-                }
-                return true;
-
-            case UNSIGNED_LONG:
-
-                for (final String rawValue : param.getRawValues()) {
-                    if (!isUnsignedLong(rawValue)) {
-                        return false;
-                    }
-                }
-                return true;
-
-            case LONG:
-
-                for (final String rawValue : param.getRawValues()) {
-                    if (!isLong(rawValue)) {
-                        return false;
-                    }
-                }
-                return true;
-
-            case UNSIGNED_SHORT:
-
-                for (final String rawValue : param.getRawValues()) {
-                    if (!isUnsignedShort(rawValue)) {
-                        return false;
-                    }
-                }
-                return true;
-
-            case SHORT:
-
-                for (final String rawValue : param.getRawValues()) {
-                    if (!isShort(rawValue)) {
-                        return false;
-                    }
-                }
-                return true;
-
-            case JSON:
-
-                for (final String rawValue : param.getRawValues()) {
-                    if (!isJSON(rawValue)) {
-                        return false;
-                    }
-                }
-                return true;
-
-            case STRING:
-
-                return true;
-
-            default:
-                return false;
-
-        }
-
     }
 
 }

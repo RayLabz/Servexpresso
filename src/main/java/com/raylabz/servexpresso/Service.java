@@ -55,11 +55,24 @@ public class Service {
      */
     private ArrayList<MissingParamError> checkForMissingParams(InputParams receivedParams) {
         ArrayList<MissingParamError> errors = new ArrayList<>();
-        for (Params.Entry<String, ServiceParam> entry : expectedParams.entrySet()) {
-            final ServiceParam expectedParam = entry.getValue();
-            final ServiceInputParam inputParam = receivedParams.get(expectedParam.getName());
-            if (inputParam == null && expectedParam.isRequired()) {
-                errors.add(new MissingParamError(expectedParam));
+
+        for (Params.Entry<String, ExpectedParam> entry : expectedParams.entrySet()) {
+            final ExpectedParam expectedParam = entry.getValue();
+            final InputParam inputParam = receivedParams.get(expectedParam.getName());
+
+            if (expectedParam.isRequired()) {
+
+                //Missing both declaration and value:
+                if (inputParam == null) {
+                    errors.add(new MissingParamError(expectedParam));
+                }
+                else {
+                    //Declaration exists, but no value provided:
+                    if (inputParam.getRawValues() == null || inputParam.getRawValues().length == 0) {
+                        errors.add(new MissingParamError(expectedParam));
+                    }
+                }
+
             }
         }
         return errors;
@@ -73,22 +86,21 @@ public class Service {
     private ArrayList<TypeMismatchParamError> checkForParamTypes(InputParams receivedParams) {
         ArrayList<TypeMismatchParamError> errors = new ArrayList<>();
 
-        for (Params.Entry<String, ServiceParam> entry : expectedParams.entrySet()) {
+        for (Params.Entry<String, ExpectedParam> entry : expectedParams.entrySet()) {
 
-            final ServiceParam expectedParam = entry.getValue();
-            final ServiceInputParam inputParam = receivedParams.get(expectedParam.getName());
+            final ExpectedParam expectedParam = entry.getValue();
+            final InputParam inputParam = receivedParams.get(expectedParam.getName());
 
             if (inputParam != null) {
-                final ParamType actualParamType = TypeParser.findType(inputParam);
+                final ParamType actualParamType = TypeParser.findType(inputParam, expectedParam.getType());
 
                 System.out.println("actualParamType: " + actualParamType); //TODO REMOVE
-                System.out.println("Expected type: " + inputParam.getType()); //TODO REMOVE
+                System.out.println("Expected type: " + expectedParam.getType()); //TODO REMOVE
 
-                if (!TypeParser.checkParamType(inputParam)
-                        && inputParam.getType() != ParamType.STRING
-                        && !actualParamType.isCastableTo(inputParam.getType())
+                if (actualParamType != ParamType.STRING
+                        && !actualParamType.isCastableTo(expectedParam.getType())
                 ) {
-                    errors.add(new TypeMismatchParamError(inputParam, actualParamType));
+                    errors.add(new TypeMismatchParamError(inputParam, expectedParam.getType(), actualParamType));
                 }
             }
 
@@ -102,6 +114,13 @@ public class Service {
      * @return Returns a Response object.
      */
     public Response processRequest(InputParams inputParams) {
+
+        //Parse the input parameters:
+        for (Map.Entry<String, InputParam> inputParamEntry : inputParams.entrySet()) {
+            final ExpectedParam expectedParam = expectedParams.get(inputParamEntry.getKey());
+            TypeParser.parseValues(inputParamEntry.getValue(), expectedParam);
+        }
+
         //Check for missing parameters:
         ArrayList<MissingParamError> missingParamErrors = checkForMissingParams(inputParams);
         if (missingParamErrors.size() > 0) {
@@ -129,9 +148,9 @@ public class Service {
      * @param inputParams An array containing the parameters provided to this service.
      * @return Returns a Response object.
      */
-    public Response processRequest(ServiceInputParam... inputParams) {
+    public Response processRequest(InputParam... inputParams) {
         InputParams map = new InputParams();
-        for (final ServiceInputParam param : inputParams) {
+        for (final InputParam param : inputParams) {
             map.put(param.getName(), param);
         }
         return processRequest(map);
@@ -160,7 +179,7 @@ public class Service {
          * @return Returns a builder.
          */
         public Builder expectParam(final String paramName, final ParamType paramType, final boolean required) {
-            expectedParameters.put(paramName, new ServiceParam(paramName, paramType, required));
+            expectedParameters.put(paramName, new ExpectedParam(paramName, paramType, required));
             return this;
         }
 
@@ -169,7 +188,7 @@ public class Service {
          * @param param The parameter to add.
          * @return Returns a builder.
          */
-        public Builder expectParam(final ServiceParam param) {
+        public Builder expectParam(final ExpectedParam param) {
             return expectParam(param.getName(), param.getType(), param.isRequired());
         }
 
@@ -221,7 +240,7 @@ public class Service {
             }
 
             //Check param names:
-            for (Map.Entry<String, ServiceParam> parameter : expectedParameters.entrySet()) {
+            for (Map.Entry<String, ExpectedParam> parameter : expectedParameters.entrySet()) {
                 final String paramName = parameter.getKey();
                 if (paramName.trim().isEmpty()) {
                     throw new ServiceParamNameException("Service parameter names cannot be blank.");

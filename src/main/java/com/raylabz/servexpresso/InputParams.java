@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Models an input parameters map.
  */
-public class InputParams extends HashMap<String, ServiceInputParam> {
+public class InputParams extends HashMap<String, InputParam> {
 
     /**
      * Checks if values exist for a parameter name.
@@ -292,7 +292,7 @@ public class InputParams extends HashMap<String, ServiceInputParam> {
             final String paramName = entry.getKey();
             final String[] paramRawValue = entry.getValue();
             final ParamType paramType = ParamType.fromRawValues(paramRawValue);
-            ServiceInputParam inputParam = new ServiceInputParam(paramName, paramType, paramRawValue);
+            InputParam inputParam = new InputParam(paramName, paramType, paramRawValue);
             inputParams.put(inputParam.getName(), inputParam);
         }
         return inputParams;

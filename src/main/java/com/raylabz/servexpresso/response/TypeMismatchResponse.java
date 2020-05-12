@@ -27,7 +27,7 @@ public class TypeMismatchResponse extends ErrorResponse {
         }
 
         if (simpleErrors.size() > 1) {
-            errorStringBuilder = new StringBuilder("Missing parameters: ");
+            errorStringBuilder = new StringBuilder("Invalid parameters: ");
             for (SimpleError e : simpleErrors) {
                 errorStringBuilder.append(e.getParamName()).append(", ");
             }

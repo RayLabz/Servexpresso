@@ -3,12 +3,12 @@ package com.raylabz.servexpresso;
 /**
  * Models a service param that has been attached an input value.
  */
-public class ServiceInputParam extends ServiceParam {
+public class InputParam extends ServiceParam {
 
     /**
      * The parsed values.
      */
-    private final Object[] values;
+    private Object[] values;
 
     /**
      * The raw string-based values (Array of Strings).
@@ -18,24 +18,20 @@ public class ServiceInputParam extends ServiceParam {
     /**
      * Instantiates a new input parameter.
      * @param name The name of the parameter.
-     * @param type The type of the parameter.
      * @param rawValues The raw values of the parameter - in string format.
      */
-    public ServiceInputParam(String name, ParamType type, String... rawValues) {
-        super(name, type, false);
+    public InputParam(String name, String... rawValues) {
+        super(name);
         this.rawValues = rawValues;
-        this.values = TypeParser.parseValues(rawValues, type);
     }
 
     /**
      * Instantiates a new input parameter.
      * @param name The name of the parameter.
-     * @param type The type of the parameter.
      * @param values The raw value of the parameter as an object.
      */
-    public ServiceInputParam(String name, ParamType type, Object... values) {
-        super(name, type, false);
-        this.values = values; //TODO Need to check values vs type before adding the to 'values'.
+    public InputParam(String name, Object... values) {
+        super(name);
         this.rawValues = new String[values.length];
         for (int i = 0; i < values.length; i++) {
             rawValues[i] = values[i].toString();
@@ -48,6 +44,14 @@ public class ServiceInputParam extends ServiceParam {
      */
     public Object[] getValues() {
         return values;
+    }
+
+    /**
+     * Sets the values for this parameter.
+     * @param values The values (Object[]).
+     */
+    public void setValues(Object[] values) {
+        this.values = values;
     }
 
     /**

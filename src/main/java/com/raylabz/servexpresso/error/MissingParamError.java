@@ -1,6 +1,6 @@
 package com.raylabz.servexpresso.error;
 
-import com.raylabz.servexpresso.ServiceParam;
+import com.raylabz.servexpresso.ExpectedParam;
 
 /**
  * Models a missing parameter error.
@@ -9,10 +9,10 @@ public class MissingParamError extends ServiceParamError {
 
     /**
      * Constructs an error based on a specified service parameter.
-     * @param serviceParam The service parameter.
+     * @param expectedParam The service parameter.
      */
-    public MissingParamError(ServiceParam serviceParam) {
-        super(serviceParam, ServiceParamErrorType.MISSING_PARAM);
+    public MissingParamError(ExpectedParam expectedParam) {
+        super(expectedParam, ServiceParamErrorType.MISSING_PARAM);
     }
 
     /**

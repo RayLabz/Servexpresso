@@ -1,5 +1,3 @@
-import com.google.gson.JsonObject;
-import com.raylabz.responz.ErrorResponse;
 import com.raylabz.responz.Response;
 import com.raylabz.responz.SecurityResponse;
 import com.raylabz.responz.SuccessResponse;
@@ -12,7 +10,7 @@ public class Test {
                 .expectParam("password", ParamType.STRING, true)
 //                .expectParam("name", ParamType.STRING, true)
                 .expectParam("seed", ParamType.LONG, true)
-//                .expectParam("maxHorizontalChunks", ParamType.INTEGER, true)
+                .expectParam("maxHorizontalChunks", ParamType.INTEGER, true)
 //                .expectParam("maxVerticalChunks", ParamType.INTEGER, true)
                 .implement(new Serviceable() {
                     @Override
@@ -32,9 +30,9 @@ public class Test {
                 }).build();
 
         final Response response = CREATE_GAME_SERVICE.processRequest(
-                new ServiceInputParam("password", ParamType.STRING, "1234"),
-                new ServiceInputParam("seed", ParamType.UNSIGNED_LONG, "12.34")
-//                new ServiceInputParam("maxHorizontalChunks",)
+                new InputParam("password", "1234"),
+                new InputParam("seed",  "12"),
+                new InputParam("maxHorizontalChunks", "d")
         );
 
         System.out.println(response);
