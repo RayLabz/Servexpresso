@@ -1,5 +1,6 @@
 package com.raylabz.servexpresso;
 
+import com.raylabz.servexpresso.exception.InvalidCastException;
 import com.raylabz.servexpresso.exception.ValueIndexOutOfRangeException;
 
 import java.util.HashMap;
@@ -34,7 +35,11 @@ public class InputParams extends HashMap<String, InputParam> {
      * @return Returns a boolean.
      */
     public boolean getBoolean(final String paramName) {
-        return (boolean) get(paramName).getValues()[0];
+        try {
+            return (boolean) get(paramName).getValues()[0];
+        } catch (ClassCastException e) {
+            throw new InvalidCastException(paramName, boolean.class, get(paramName).getValues()[0].getClass());
+        }
     }
 
     /**
@@ -70,7 +75,11 @@ public class InputParams extends HashMap<String, InputParam> {
      * @return Returns an integer.
      */
     public int getInt(final String paramName) {
-        return (int) get(paramName).getValues()[0];
+        try {
+            return (int) get(paramName).getValues()[0];
+        } catch (ClassCastException e) {
+            throw new InvalidCastException(paramName, int.class, get(paramName).getValues()[0].getClass());
+        }
     }
 
     /**
@@ -106,7 +115,11 @@ public class InputParams extends HashMap<String, InputParam> {
      * @return Returns a long.
      */
     public long getLong(final String paramName) {
-        return (long) get(paramName).getValues()[0];
+        try {
+            return (long) get(paramName).getValues()[0];
+        } catch (ClassCastException e) {
+            throw new InvalidCastException(paramName, long.class, get(paramName).getValues()[0].getClass());
+        }
     }
 
     /**
@@ -142,7 +155,11 @@ public class InputParams extends HashMap<String, InputParam> {
      * @return Returns a short.
      */
     public short getShort(final String paramName) {
-        return (short) get(paramName).getValues()[0];
+        try {
+            return (short) get(paramName).getValues()[0];
+        } catch (ClassCastException e) {
+            throw new InvalidCastException(paramName, short.class, get(paramName).getValues()[0].getClass());
+        }
     }
 
     /**
@@ -178,7 +195,11 @@ public class InputParams extends HashMap<String, InputParam> {
      * @return Returns a double.
      */
     public double getDouble(final String paramName) {
-        return (double) get(paramName).getValues()[0];
+        try {
+            return (double) get(paramName).getValues()[0];
+        } catch (ClassCastException e) {
+            throw new InvalidCastException(paramName, double.class, get(paramName).getValues()[0].getClass());
+        }
     }
 
     /**
@@ -214,7 +235,11 @@ public class InputParams extends HashMap<String, InputParam> {
      * @return Returns a JSON-formatted string.
      */
     public String getJSON(final String paramName) {
-        return (String) get(paramName).getValues()[0];
+        try {
+            return (String) get(paramName).getValues()[0];
+        } catch (ClassCastException e) {
+            throw new InvalidCastException(paramName, String.class, get(paramName).getValues()[0].getClass());
+        }
     }
 
     /**
@@ -250,7 +275,11 @@ public class InputParams extends HashMap<String, InputParam> {
      * @return Returns a string.
      */
     public String getString(final String paramName) {
-        return (String) get(paramName).getValues()[0];
+        try {
+            return (String) get(paramName).getValues()[0];
+        } catch (ClassCastException e) {
+            throw new InvalidCastException(paramName, String.class, get(paramName).getValues()[0].getClass());
+        }
     }
 
     /**

@@ -13,7 +13,7 @@ public class InvalidValueException extends RuntimeException {
      * @param type The expected type.
      */
     public InvalidValueException(final String rawValue, final ParamType type) {
-        super("The string value '" + rawValue + "' cannot be converted into type " + type);
+        super("The string value '" + rawValue + "' cannot be converted into type " + type + ".");
     }
 
 }

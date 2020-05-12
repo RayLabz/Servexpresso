@@ -23,6 +23,7 @@ public class Test {
                                 long seed = inputParams.getLong("seed");
                                 System.out.println("Seed: " + seed);
                                 System.out.println("Password: " + inputParams.getString("password"));
+                                System.out.println("maxHorizontalChunks: " + inputParams.getString("maxHorizontalChunks"));
                             }
                             return new SuccessResponse("hi!", "Success!");
                         }
@@ -32,7 +33,7 @@ public class Test {
         final Response response = CREATE_GAME_SERVICE.processRequest(
                 new InputParam("password", "1234"),
                 new InputParam("seed",  "12"),
-                new InputParam("maxHorizontalChunks", "d")
+                new InputParam("maxHorizontalChunks", "3")
         );
 
         System.out.println(response);

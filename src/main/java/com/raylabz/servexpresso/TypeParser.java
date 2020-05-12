@@ -3,6 +3,7 @@ package com.raylabz.servexpresso;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.raylabz.servexpresso.exception.InvalidValueException;
+import org.omg.CORBA.DynAnyPackage.InvalidValue;
 
 /**
  * Helper class used to check if a given raw corresponds to a value of a ServiceParameterType.
@@ -265,12 +266,15 @@ public class TypeParser {
      * @return Returns true if the value is in JSON format, false otherwise.
      */
     public static boolean isJSON(final String raw) {
-        try {
-            new Gson().fromJson(raw, Object.class);
-            return true;
-        } catch (JsonSyntaxException e) {
-            return false;
+        if (raw.startsWith("{") && raw.endsWith("}")) {
+            try {
+                new Gson().fromJson(raw, Object.class);
+                return true;
+            } catch (JsonSyntaxException e) {
+                return false;
+            }
         }
+        return false;
     }
 
     /**
@@ -285,10 +289,10 @@ public class TypeParser {
     /**
      * Returns an array of raw values as object based on their raw (String) value.
      * @param param The parameter to parse the values for.
-     * @param expectedType The expected type.
+     * @param expectedParam The expected parameter.
      * @return Returns a generic object array constricted to the types listed in ServiceParamType.
      */
-    public static void parseValues(final InputParam param, final ExpectedParam expectedParam) {
+    public static void parseValues(final InputParam param, final ExpectedParam expectedParam) throws InvalidValueException {
         //Important note: The parsing order matters.
 
         final ParamType expectedType = expectedParam.getType();
@@ -330,7 +334,6 @@ public class TypeParser {
             else if (expectedType == ParamType.STRING){
                 rawObjects[i] = rawValues[i];
             }
-
         }
         param.setValues(rawObjects);
     }
