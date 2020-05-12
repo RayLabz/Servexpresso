@@ -337,6 +337,7 @@ public class TypeParser {
      */
     public static ParamType findType(final ServiceInputParam param) {
 
+        final ParamType expectedType = param.getType();
         ParamType previousType = null;
         ParamType currentType = null;
 
@@ -345,6 +346,9 @@ public class TypeParser {
             if (isBoolean(param.getRawValues()[i])) {
                 currentType = ParamType.BOOLEAN;
                 if (previousType != null && currentType != previousType) {
+                    if (currentType.isCastableTo(expectedType)) {
+                        return expectedType;
+                    }
                     return ParamType.STRING;
                 }
                 previousType = currentType;
@@ -352,6 +356,9 @@ public class TypeParser {
             else if (isUnsignedInteger(param.getRawValues()[i])) {
                 currentType = ParamType.UNSIGNED_INTEGER;
                 if (previousType != null && currentType != previousType) {
+                    if (currentType.isCastableTo(expectedType)) {
+                        return expectedType;
+                    }
                     return ParamType.STRING;
                 }
                 previousType = currentType;
@@ -359,6 +366,9 @@ public class TypeParser {
             else if (isInteger(param.getRawValues()[i])) {
                 currentType = ParamType.INTEGER;
                 if (previousType != null && currentType != previousType) {
+                    if (currentType.isCastableTo(expectedType)) {
+                        return expectedType;
+                    }
                     return ParamType.STRING;
                 }
                 previousType = currentType;
@@ -366,6 +376,9 @@ public class TypeParser {
             else if (isUnsignedLong(param.getRawValues()[i])) {
                 currentType = ParamType.UNSIGNED_LONG;
                 if (previousType != null && currentType != previousType) {
+                    if (currentType.isCastableTo(expectedType)) {
+                        return expectedType;
+                    }
                     return ParamType.STRING;
                 }
                 previousType = currentType;
@@ -373,6 +386,9 @@ public class TypeParser {
             else if (isLong(param.getRawValues()[i])) {
                 currentType = ParamType.LONG;
                 if (previousType != null && currentType != previousType) {
+                    if (currentType.isCastableTo(expectedType)) {
+                        return expectedType;
+                    }
                     return ParamType.STRING;
                 }
                 previousType = currentType;
@@ -380,6 +396,9 @@ public class TypeParser {
             else if (isUnsignedShort(param.getRawValues()[i])) {
                 currentType = ParamType.UNSIGNED_SHORT;
                 if (previousType != null && currentType != previousType) {
+                    if (currentType.isCastableTo(expectedType)) {
+                        return expectedType;
+                    }
                     return ParamType.STRING;
                 }
                 previousType = currentType;
@@ -387,6 +406,9 @@ public class TypeParser {
             else if (isShort(param.getRawValues()[i])) {
                 currentType = ParamType.SHORT;
                 if (previousType != null && currentType != previousType) {
+                    if (currentType.isCastableTo(expectedType)) {
+                        return expectedType;
+                    }
                     return ParamType.STRING;
                 }
                 previousType = currentType;
@@ -394,6 +416,9 @@ public class TypeParser {
             else if (isUnsignedDouble(param.getRawValues()[i])) {
                 currentType = ParamType.UNSIGNED_DOUBLE;
                 if (previousType != null && currentType != previousType) {
+                    if (currentType.isCastableTo(expectedType)) {
+                        return expectedType;
+                    }
                     return ParamType.STRING;
                 }
                 previousType = currentType;
@@ -401,6 +426,9 @@ public class TypeParser {
             else if (isDouble(param.getRawValues()[i])) {
                 currentType = ParamType.DOUBLE;
                 if (previousType != null && currentType != previousType) {
+                    if (currentType.isCastableTo(expectedType)) {
+                        return expectedType;
+                    }
                     return ParamType.STRING;
                 }
                 previousType = currentType;
@@ -408,6 +436,9 @@ public class TypeParser {
             else if (isJSON(param.getRawValues()[i])) {
                 currentType = ParamType.JSON;
                 if (previousType != null && currentType != previousType) {
+                    if (currentType.isCastableTo(expectedType)) {
+                        return expectedType;
+                    }
                     return ParamType.STRING;
                 }
                 previousType = currentType;
@@ -429,103 +460,93 @@ public class TypeParser {
 
             case BOOLEAN:
 
-                boolean isBoolean = true;
                 for (final String rawValue : param.getRawValues()) {
                     if (!isBoolean(rawValue)) {
-                        isBoolean = false;
+                        return false;
                     }
                 }
-                return isBoolean;
+                return true;
 
             case UNSIGNED_DOUBLE:
 
-                boolean isUnsignedDouble = true;
                 for (final String rawValue : param.getRawValues()) {
                     if (!isUnsignedDouble(rawValue)) {
-                        isUnsignedDouble = false;
+                        return false;
                     }
                 }
-                return isUnsignedDouble;
+                return true;
 
             case DOUBLE:
 
-                boolean isDouble = true;
                 for (final String rawValue : param.getRawValues()) {
                     if (!isDouble(rawValue)) {
-                        isDouble = false;
+                        return false;
                     }
                 }
-                return isDouble;
+                return true;
 
             case UNSIGNED_INTEGER:
 
-                boolean isUnsignedInt = true;
                 for (final String rawValue : param.getRawValues()) {
                     if (!isUnsignedInteger(rawValue)) {
-                        isUnsignedInt = false;
+                        return false;
                     }
                 }
-                return isUnsignedInt;
+                return true;
 
             case INTEGER:
 
-                boolean isInt = true;
                 for (final String rawValue : param.getRawValues()) {
                     if (!isInteger(rawValue)) {
-                        isInt = false;
+                        return false;
                     }
                 }
-                return isInt;
+                return true;
 
             case UNSIGNED_LONG:
 
-                boolean isUnsignedLong = true;
                 for (final String rawValue : param.getRawValues()) {
                     if (!isUnsignedLong(rawValue)) {
-                        isUnsignedLong = false;
+                        return false;
                     }
                 }
-                return isUnsignedLong;
+                return true;
 
             case LONG:
 
-                boolean isLong = true;
                 for (final String rawValue : param.getRawValues()) {
                     if (!isLong(rawValue)) {
-                        isLong = false;
+                        return false;
                     }
                 }
-                return isLong;
+                return true;
 
             case UNSIGNED_SHORT:
 
-                boolean isUnsignedShort = true;
                 for (final String rawValue : param.getRawValues()) {
                     if (!isUnsignedShort(rawValue)) {
-                        isUnsignedShort = false;
+                        return false;
                     }
                 }
-                return isUnsignedShort;
+                return true;
 
             case SHORT:
 
-                boolean isShort = true;
                 for (final String rawValue : param.getRawValues()) {
                     if (!isShort(rawValue)) {
-                        isShort = false;
+                        return false;
                     }
                 }
-                return isShort;
+                return true;
 
             case JSON:
 
-                boolean isJSON = true;
                 for (final String rawValue : param.getRawValues()) {
                     if (!isJSON(rawValue)) {
-                        isJSON = false;
+                        return false;
                     }
                 }
-                return isJSON;
+                return true;
 
             case STRING:
 

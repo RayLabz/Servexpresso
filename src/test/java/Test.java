@@ -24,6 +24,7 @@ public class Test {
                             if (inputParams.paramExists("seed")) {
                                 long seed = inputParams.getLong("seed");
                                 System.out.println("Seed: " + seed);
+                                System.out.println("Password: " + inputParams.getString("password"));
                             }
                             return new SuccessResponse("hi!", "Success!");
                         }
@@ -32,7 +33,8 @@ public class Test {
 
         final Response response = CREATE_GAME_SERVICE.processRequest(
                 new ServiceInputParam("password", ParamType.STRING, "1234"),
-                new ServiceInputParam("seed", ParamType.UNSIGNED_LONG, "1234")
+                new ServiceInputParam("seed", ParamType.UNSIGNED_LONG, "12.34")
+//                new ServiceInputParam("maxHorizontalChunks",)
         );
 
         System.out.println(response);

@@ -7,19 +7,19 @@ import com.google.gson.JsonElement;
  */
 public enum ParamType {
 
-    BOOLEAN(boolean.class),
-
-    DOUBLE(double.class),
-    LONG(long.class),
-    INTEGER(int.class, LONG),
-    SHORT(short.class, INTEGER, LONG),
-
-    UNSIGNED_DOUBLE(double.class, DOUBLE),
-    UNSIGNED_LONG(long.class, LONG),
-    UNSIGNED_INTEGER(int.class, UNSIGNED_LONG, LONG),
-    UNSIGNED_SHORT(short.class, UNSIGNED_LONG, UNSIGNED_INTEGER, LONG, INTEGER),
-
     STRING(String.class),
+    BOOLEAN(boolean.class, STRING),
+
+    DOUBLE(double.class, STRING),
+    LONG(long.class, STRING),
+    INTEGER(int.class, LONG, STRING),
+    SHORT(short.class, INTEGER, LONG, STRING),
+
+    UNSIGNED_DOUBLE(double.class, DOUBLE, STRING),
+    UNSIGNED_LONG(long.class, LONG, STRING),
+    UNSIGNED_INTEGER(int.class, UNSIGNED_LONG, LONG, STRING),
+    UNSIGNED_SHORT(short.class, UNSIGNED_LONG, UNSIGNED_INTEGER, LONG, INTEGER, STRING),
+
     JSON(JsonElement.class, STRING),
 
     ;
@@ -49,6 +49,20 @@ public enum ParamType {
      */
     public Class<?> getTranslatedType() {
         return translatedType;
+    }
+
+    /**
+     * Checks if this type is castable to another type (as specified in validCastTypes).
+     * @param type The type to check against.
+     * @return Returns true if this particular type can be casted into the type provided, false otherwise.
+     */
+    public final boolean isCastableTo(final ParamType type) {
+        for (ParamType t : validCastTypes) {
+            if (t == type) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

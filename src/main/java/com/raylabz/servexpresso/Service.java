@@ -66,22 +66,32 @@ public class Service {
     }
 
     /**
-     * Checks if the parameters provided have types that match those expected.
+     * Checks if the parameters provided have types that match those expected or are at least castable to those expected.
      * @param receivedParams The provided params.
      * @return Returns an ArrayList of TypeMismatchParamError.
      */
     private ArrayList<TypeMismatchParamError> checkForParamTypes(InputParams receivedParams) {
         ArrayList<TypeMismatchParamError> errors = new ArrayList<>();
+
         for (Params.Entry<String, ServiceParam> entry : expectedParams.entrySet()) {
+
             final ServiceParam expectedParam = entry.getValue();
             final ServiceInputParam inputParam = receivedParams.get(expectedParam.getName());
+
             if (inputParam != null) {
                 final ParamType actualParamType = TypeParser.findType(inputParam);
+
                 System.out.println("actualParamType: " + actualParamType); //TODO REMOVE
-                if (!TypeParser.checkParamType(inputParam) || actualParamType != inputParam.getType() && inputParam.getType() != ParamType.STRING) {
+                System.out.println("Expected type: " + inputParam.getType()); //TODO REMOVE
+
+                if (!TypeParser.checkParamType(inputParam)
+                        && inputParam.getType() != ParamType.STRING
+                        && !actualParamType.isCastableTo(inputParam.getType())
+                ) {
                     errors.add(new TypeMismatchParamError(inputParam, actualParamType));
                 }
             }
+
         }
         return errors;
     }

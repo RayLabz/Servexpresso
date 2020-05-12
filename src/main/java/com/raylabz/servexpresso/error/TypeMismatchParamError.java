@@ -23,7 +23,7 @@ public class TypeMismatchParamError extends ServiceParamError {
     @Override
     public String getMessage() {
         final ServiceInputParam param = (ServiceInputParam) serviceParam;
-        return "Expected type " + param.getType() + " for parameter '" + param.getName() + "', but " + actualType + " '" + ((ServiceInputParam) serviceParam).getValues()[0].toString() + "' found.";
+        return "Expected type " + param.getType() + " for parameter '" + param.getName() + "', but " + actualType + " found.";
     }
 
 }
