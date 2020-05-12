@@ -76,8 +76,10 @@ public class Service {
             final ServiceParam expectedParam = entry.getValue();
             final ServiceInputParam inputParam = receivedParams.get(expectedParam.getName());
             if (inputParam != null) {
-                if (!TypeParser.checkParamType(inputParam)) {
-                    errors.add(new TypeMismatchParamError(inputParam));
+                final ParamType actualParamType = TypeParser.findType(inputParam);
+                System.out.println("actualParamType: " + actualParamType); //TODO REMOVE
+                if (!TypeParser.checkParamType(inputParam) || actualParamType != inputParam.getType() && inputParam.getType() != ParamType.STRING) {
+                    errors.add(new TypeMismatchParamError(inputParam, actualParamType));
                 }
             }
         }

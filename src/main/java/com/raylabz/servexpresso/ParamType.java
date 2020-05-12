@@ -8,16 +8,19 @@ import com.google.gson.JsonElement;
 public enum ParamType {
 
     BOOLEAN(boolean.class),
-    UNSIGNED_DOUBLE(double.class),
+
     DOUBLE(double.class),
-    UNSIGNED_INTEGER(int.class),
-    INTEGER(int.class),
-    UNSIGNED_LONG(long.class),
     LONG(long.class),
-    UNSIGNED_SHORT(short.class),
-    SHORT(short.class),
-    JSON(JsonElement.class),
+    INTEGER(int.class, LONG),
+    SHORT(short.class, INTEGER, LONG),
+
+    UNSIGNED_DOUBLE(double.class, DOUBLE),
+    UNSIGNED_LONG(long.class, LONG),
+    UNSIGNED_INTEGER(int.class, UNSIGNED_LONG, LONG),
+    UNSIGNED_SHORT(short.class, UNSIGNED_LONG, UNSIGNED_INTEGER, LONG, INTEGER),
+
     STRING(String.class),
+    JSON(JsonElement.class, STRING),
 
     ;
 
@@ -27,11 +30,17 @@ public enum ParamType {
     private final Class<?> translatedType;
 
     /**
+     * Defines which other ParamTypes this type can be casted into, without loss of data.
+     */
+    private final ParamType[] validCastTypes;
+
+    /**
      * Instantiates a new ServiceParameterType
      * @param translatedType The runtime class that this ServiceParameterType will be translated into.
      */
-    ParamType(Class<?> translatedType) {
+    ParamType(Class<?> translatedType, ParamType... validCastTypes) {
         this.translatedType = translatedType;
+        this.validCastTypes = validCastTypes;
     }
 
     /**

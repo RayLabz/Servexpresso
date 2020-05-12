@@ -11,6 +11,15 @@ import java.util.Map;
 public class InputParams extends HashMap<String, ServiceInputParam> {
 
     /**
+     * Checks if values exist for a parameter name.
+     * @param paramName The parameter name.
+     * @return Returns boolean - true if the parameter exists, false otherwise.
+     */
+    public final boolean paramExists(final String paramName) {
+        return get(paramName) != null;
+    }
+
+    /**
      * Retrieves the number of values provided for a parameter.
      * @param paramName The parameter's name.
      * @return Returns an integer.

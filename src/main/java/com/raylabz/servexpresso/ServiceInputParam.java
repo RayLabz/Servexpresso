@@ -24,7 +24,7 @@ public class ServiceInputParam extends ServiceParam {
     public ServiceInputParam(String name, ParamType type, String... rawValues) {
         super(name, type, false);
         this.rawValues = rawValues;
-        this.values = TypeParser.parseValues(rawValues);
+        this.values = TypeParser.parseValues(rawValues, type);
     }
 
     /**
@@ -35,7 +35,7 @@ public class ServiceInputParam extends ServiceParam {
      */
     public ServiceInputParam(String name, ParamType type, Object... values) {
         super(name, type, false);
-        this.values = values;
+        this.values = values; //TODO Need to check values vs type before adding the to 'values'.
         this.rawValues = new String[values.length];
         for (int i = 0; i < values.length; i++) {
             rawValues[i] = values[i].toString();

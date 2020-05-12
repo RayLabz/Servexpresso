@@ -287,47 +287,136 @@ public class TypeParser {
      * @param rawValues The string-formatted raw value of the input parameter.
      * @return Returns a generic object array constricted to the types listed in ServiceParamType.
      */
-    public static Object[] parseValues(final String[] rawValues) {
+    public static Object[] parseValues(final String[] rawValues, final ParamType paramType) {
         //Important note: The parsing order matters.
         Object[] rawObjects = new Object[rawValues.length];
         for (int i = 0; i < rawValues.length; i++) {
 
-            if (isBoolean(rawValues[i])) {
+            if (isBoolean(rawValues[i]) && paramType == ParamType.BOOLEAN) {
                 rawObjects[i] = getBoolean(rawValues[i]);
             }
-            else if (isUnsignedInteger(rawValues[i])) {
+            else if (isUnsignedInteger(rawValues[i]) && paramType == ParamType.UNSIGNED_INTEGER) {
                 rawObjects[i] = getUnsignedInteger(rawValues[i]);
             }
-            else if (isInteger(rawValues[i])) {
+            else if (isInteger(rawValues[i]) && paramType == ParamType.INTEGER) {
                 rawObjects[i] = getInteger(rawValues[i]);
             }
-            else if (isUnsignedLong(rawValues[i])) {
+            else if (isUnsignedLong(rawValues[i]) && paramType == ParamType.UNSIGNED_LONG) {
                 rawObjects[i] = getUnsignedLong(rawValues[i]);
             }
-            else if (isLong(rawValues[i])) {
+            else if (isLong(rawValues[i]) && paramType == ParamType.LONG) {
                 rawObjects[i] = getLong(rawValues[i]);
             }
-            else if (isUnsignedShort(rawValues[i])) {
+            else if (isUnsignedShort(rawValues[i]) && paramType == ParamType.UNSIGNED_SHORT) {
                 rawObjects[i] = getUnsignedShort(rawValues[i]);
             }
-            else if (isShort(rawValues[i])) {
+            else if (isShort(rawValues[i]) && paramType == ParamType.SHORT) {
                 rawObjects[i] = getShort(rawValues[i]);
             }
-            else if (isUnsignedDouble(rawValues[i])) {
+            else if (isUnsignedDouble(rawValues[i]) && paramType == ParamType.UNSIGNED_DOUBLE) {
                 rawObjects[i] = getUnsignedDouble(rawValues[i]);
             }
-            else if (isDouble(rawValues[i])) {
+            else if (isDouble(rawValues[i]) && paramType == ParamType.DOUBLE) {
                 rawObjects[i] = getDouble(rawValues[i]);
             }
-            else if (isJSON(rawValues[i])) {
+            else if (isJSON(rawValues[i]) && paramType == ParamType.JSON) {
                 rawObjects[i] = getJSON(rawValues[i]);
             }
-            else {
+            else if (paramType == ParamType.STRING){
                 rawObjects[i] = rawValues[i];
             }
 
         }
         return rawObjects;
+    }
+
+    /**
+     * Gets the type of a parameter based on its raw values.
+     * @param param The parameter.
+     * @return Returns a ParamType.
+     */
+    public static ParamType findType(final ServiceInputParam param) {
+
+        ParamType previousType = null;
+        ParamType currentType = null;
+
+        for (int i = 0; i < param.getRawValues().length; i++) {
+
+            if (isBoolean(param.getRawValues()[i])) {
+                currentType = ParamType.BOOLEAN;
+                if (previousType != null && currentType != previousType) {
+                    return ParamType.STRING;
+                }
+                previousType = currentType;
+            }
+            else if (isUnsignedInteger(param.getRawValues()[i])) {
+                currentType = ParamType.UNSIGNED_INTEGER;
+                if (previousType != null && currentType != previousType) {
+                    return ParamType.STRING;
+                }
+                previousType = currentType;
+            }
+            else if (isInteger(param.getRawValues()[i])) {
+                currentType = ParamType.INTEGER;
+                if (previousType != null && currentType != previousType) {
+                    return ParamType.STRING;
+                }
+                previousType = currentType;
+            }
+            else if (isUnsignedLong(param.getRawValues()[i])) {
+                currentType = ParamType.UNSIGNED_LONG;
+                if (previousType != null && currentType != previousType) {
+                    return ParamType.STRING;
+                }
+                previousType = currentType;
+            }
+            else if (isLong(param.getRawValues()[i])) {
+                currentType = ParamType.LONG;
+                if (previousType != null && currentType != previousType) {
+                    return ParamType.STRING;
+                }
+                previousType = currentType;
+            }
+            else if (isUnsignedShort(param.getRawValues()[i])) {
+                currentType = ParamType.UNSIGNED_SHORT;
+                if (previousType != null && currentType != previousType) {
+                    return ParamType.STRING;
+                }
+                previousType = currentType;
+            }
+            else if (isShort(param.getRawValues()[i])) {
+                currentType = ParamType.SHORT;
+                if (previousType != null && currentType != previousType) {
+                    return ParamType.STRING;
+                }
+                previousType = currentType;
+            }
+            else if (isUnsignedDouble(param.getRawValues()[i])) {
+                currentType = ParamType.UNSIGNED_DOUBLE;
+                if (previousType != null && currentType != previousType) {
+                    return ParamType.STRING;
+                }
+                previousType = currentType;
+            }
+            else if (isDouble(param.getRawValues()[i])) {
+                currentType = ParamType.DOUBLE;
+                if (previousType != null && currentType != previousType) {
+                    return ParamType.STRING;
+                }
+                previousType = currentType;
+            }
+            else if (isJSON(param.getRawValues()[i])) {
+                currentType = ParamType.JSON;
+                if (previousType != null && currentType != previousType) {
+                    return ParamType.STRING;
+                }
+                previousType = currentType;
+            }
+            else {
+                return ParamType.STRING;
+            }
+        }
+        return currentType;
     }
 
     /**
@@ -446,6 +535,7 @@ public class TypeParser {
                 return false;
 
         }
+
     }
 
 }
