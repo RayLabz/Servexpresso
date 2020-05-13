@@ -290,7 +290,6 @@ public class TypeParser {
      * Returns an array of raw values as object based on their raw (String) value.
      * @param param The parameter to parse the values for.
      * @param expectedParam The expected parameter.
-     * @return Returns a generic object array constricted to the types listed in ServiceParamType.
      */
     public static void parseValues(final InputParam param, final ExpectedParam expectedParam) throws InvalidValueException {
         //Important note: The parsing order matters.

@@ -320,8 +320,7 @@ public class InputParams extends HashMap<String, InputParam> {
         for (Map.Entry<String, String[]> entry : servletParamsStringMap.entrySet()) {
             final String paramName = entry.getKey();
             final String[] paramRawValue = entry.getValue();
-            final ParamType paramType = ParamType.fromRawValues(paramRawValue);
-            InputParam inputParam = new InputParam(paramName, paramType, paramRawValue);
+            InputParam inputParam = new InputParam(paramName, paramRawValue);
             inputParams.put(inputParam.getName(), inputParam);
         }
         return inputParams;
