@@ -97,7 +97,7 @@ public class Service {
                 System.out.println("actualParamType: " + actualParamType); //TODO REMOVE
                 System.out.println("Expected type: " + expectedParam.getType()); //TODO REMOVE
 
-                if (expectedParam.getType() != ParamType.STRING && !actualParamType.isCastableTo(expectedParam.getType())) {
+                if (expectedParam.getType() != ParamType.STRING && (!actualParamType.isCastableTo(expectedParam.getType()) && expectedParam.getType() != actualParamType)) {
                     errors.add(new TypeMismatchParamError(inputParam, expectedParam.getType(), actualParamType));
                 }
             }
