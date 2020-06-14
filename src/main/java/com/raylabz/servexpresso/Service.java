@@ -116,7 +116,9 @@ public class Service {
         //Parse the input parameters:
         for (Map.Entry<String, InputParam> inputParamEntry : inputParams.entrySet()) {
             final ExpectedParam expectedParam = expectedParams.get(inputParamEntry.getKey());
-            TypeParser.parseValues(inputParamEntry.getValue(), expectedParam);
+            if (expectedParam != null) {
+                TypeParser.parseValues(inputParamEntry.getValue(), expectedParam);
+            }
         }
 
         //Check for missing parameters:
