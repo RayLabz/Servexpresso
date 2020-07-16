@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 /**
  * Models a parameter type mismatch error response.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public class TypeMismatchResponse extends ErrorResponse {
 

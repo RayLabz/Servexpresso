@@ -2,6 +2,8 @@ package com.raylabz.servexpresso;
 
 /**
  * Abstract ServiceParam used for extension into InputServiceParam and ExpectedParam.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public abstract class ServiceParam {
 

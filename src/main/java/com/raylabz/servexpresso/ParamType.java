@@ -4,6 +4,8 @@ import com.google.gson.JsonElement;
 
 /**
  * Models the possible types of service parameters.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public enum ParamType {
 
@@ -18,9 +20,7 @@ public enum ParamType {
     UNSIGNED_DOUBLE(double.class, DOUBLE, STRING),
     UNSIGNED_LONG(long.class, LONG, STRING),
     UNSIGNED_INTEGER(int.class, UNSIGNED_LONG, LONG, INTEGER, STRING),
-    UNSIGNED_SHORT(short.class, UNSIGNED_LONG, UNSIGNED_INTEGER, LONG, INTEGER, STRING),
-
-    JSON(JsonElement.class, STRING),
+    UNSIGNED_SHORT(short.class, UNSIGNED_LONG, UNSIGNED_INTEGER, LONG, INTEGER, STRING);
 
     ;
 
@@ -162,17 +162,6 @@ public enum ParamType {
             }
         }
         if (isDouble) return DOUBLE;
-
-
-        //JSON check:
-        boolean isJSON = true;
-        for (final String rawValue : rawValues) {
-            if (!TypeParser.isJSON(rawValue)) {
-                isJSON = false;
-                break;
-            }
-        }
-        if (isJSON) return JSON;
 
         return STRING;
     }

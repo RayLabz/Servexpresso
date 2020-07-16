@@ -5,6 +5,8 @@ import com.raylabz.servexpresso.InputParam;
 
 /**
  * Models a type mismatch error.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public class TypeMismatchParamError extends ServiceParamError {
 
@@ -21,6 +23,8 @@ public class TypeMismatchParamError extends ServiceParamError {
     /**
      * Constructs a TypeMismatchParamError.
      * @param serviceParam The parameter related to the error.
+     * @param actualType The actual type of the parameter.
+     * @param expectedType The expected type of the parameter.
      */
     public TypeMismatchParamError(InputParam serviceParam, final ParamType expectedType, final ParamType actualType) {
         super(serviceParam, ServiceParamErrorType.TYPE_MISMATCH);

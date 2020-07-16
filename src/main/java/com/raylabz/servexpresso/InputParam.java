@@ -2,6 +2,8 @@ package com.raylabz.servexpresso;
 
 /**
  * Models a service param that has been attached an input value.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public class InputParam extends ServiceParam {
 

@@ -4,6 +4,8 @@ import com.raylabz.servexpresso.ExpectedParam;
 
 /**
  * Models a missing parameter error.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public class MissingParamError extends ServiceParamError {
 

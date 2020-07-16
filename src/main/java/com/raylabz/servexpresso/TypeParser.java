@@ -1,12 +1,11 @@
 package com.raylabz.servexpresso;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.raylabz.servexpresso.exception.InvalidValueException;
-import org.omg.CORBA.DynAnyPackage.InvalidValue;
 
 /**
  * Helper class used to check if a given raw corresponds to a value of a ServiceParameterType.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public class TypeParser {
 
@@ -261,23 +260,6 @@ public class TypeParser {
     }
 
     /**
-     * Checks if a given raw value is in JSON format.
-     * @param raw The raw to check.
-     * @return Returns true if the value is in JSON format, false otherwise.
-     */
-    public static boolean isJSON(final String raw) {
-        if (raw.startsWith("{") && raw.endsWith("}")) {
-            try {
-                new Gson().fromJson(raw, Object.class);
-                return true;
-            } catch (JsonSyntaxException e) {
-                return false;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Retrieves a JSON-formatted string passed as a raw value.
      * @param raw The raw value.
      * @return Returns a JSON-formatted string parsed from the JSON string.
@@ -327,9 +309,6 @@ public class TypeParser {
             else if (isDouble(rawValues[i]) && expectedType == ParamType.DOUBLE) {
                 rawObjects[i] = getDouble(rawValues[i]);
             }
-            else if (isJSON(rawValues[i]) && expectedType == ParamType.JSON) {
-                rawObjects[i] = getJSON(rawValues[i]);
-            }
             else if (expectedType == ParamType.STRING){
                 rawObjects[i] = rawValues[i];
             }
@@ -340,6 +319,7 @@ public class TypeParser {
     /**
      * Gets the type of a parameter based on its raw values.
      * @param param The parameter.
+     * @param expectedType The expected type of the parameter.
      * @return Returns a ParamType.
      */
     public static ParamType findType(final InputParam param, final ParamType expectedType) {
@@ -431,16 +411,6 @@ public class TypeParser {
             }
             else if (isDouble(param.getRawValues()[i])) {
                 currentType = ParamType.DOUBLE;
-                if (previousType != null && currentType != previousType) {
-                    if (currentType.isCastableTo(expectedType)) {
-                        return expectedType;
-                    }
-                    return ParamType.STRING;
-                }
-                previousType = currentType;
-            }
-            else if (isJSON(param.getRawValues()[i])) {
-                currentType = ParamType.JSON;
                 if (previousType != null && currentType != previousType) {
                     if (currentType.isCastableTo(expectedType)) {
                         return expectedType;

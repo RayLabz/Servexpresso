@@ -14,6 +14,8 @@ import java.util.Map;
 
 /**
  * Models a service.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public class Service {
 

@@ -2,6 +2,8 @@ package com.raylabz.servexpresso.error;
 
 /**
  * Down-casts a specific ServiceParamError into a leaner form that can be returned to a client.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public class SimpleError {
 

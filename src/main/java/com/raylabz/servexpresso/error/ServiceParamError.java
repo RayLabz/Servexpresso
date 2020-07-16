@@ -4,6 +4,8 @@ import com.raylabz.servexpresso.ServiceParam;
 
 /**
  * Models a generic service parameter error.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public abstract class ServiceParamError {
 

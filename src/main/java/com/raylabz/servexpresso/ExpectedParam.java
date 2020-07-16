@@ -2,6 +2,8 @@ package com.raylabz.servexpresso;
 
 /**
  * Models expected parameters that are passed to services.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public class ExpectedParam extends ServiceParam {
 

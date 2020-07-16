@@ -8,6 +8,8 @@ import java.util.Map;
 
 /**
  * Models an input parameters map.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public class InputParams extends HashMap<String, InputParam> {
 

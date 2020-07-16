@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 /**
  * Models a missing parameter error response.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public class MissingParametersResponse extends ErrorResponse {
 

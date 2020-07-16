@@ -4,6 +4,8 @@ import com.raylabz.responz.Response;
 
 /**
  * Defines the implementation of Services.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public interface Serviceable {
 

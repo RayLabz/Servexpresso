@@ -4,6 +4,8 @@ import com.raylabz.servexpresso.ParamType;
 
 /**
  * Defines an exception that occurs when a value cannot be converted into an expected type.
+ * @author Nicos Kasenides
+ * @version 1.0.0
  */
 public class InvalidValueException extends RuntimeException {
 
