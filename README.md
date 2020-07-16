@@ -173,4 +173,4 @@ in the same way as the above servlet-specific example. More such implementation-
 [View the documentation here](https://raylabz.github.io/Servexpresso/).
 
 ## License
-Servexpress is provided under the Apache 2.0 License.
+Servexpresso is provided under the Apache 2.0 License.
