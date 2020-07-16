@@ -19,7 +19,7 @@ the need to deploy them.
 ## Overview
 The library revolves around the fact that all services of any type are essentially
 functions that expect a set of input parameters, perform a sequence of processing steps 
-and then return an output. This allows them to be abstracted on several levels with two
+and then return an output. This allows them to be abstracted on several levels with three
 goals in mind:
 1) To standardize their behavior.
 2) To avoid any service-specific bugs, especially in parts where
