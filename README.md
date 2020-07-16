@@ -28,6 +28,29 @@ the thought process and behavior is always the same.
 common to all services and allowing the programmer to focus only 
 on implementing what makes each service unique.
 
+## Import
+
+Import using Maven:
+
+```xml
+<dependency>
+  <groupId>com.raylabz</groupId>
+  <artifactId>servexpresso</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+Gradle:
+
+```xml
+implementation 'com.raylabz:responz:1.0.1'
+```
+
+Download and import .jar file:
+
+[Download Jar file](https://github.com/RayLabz/Servexpresso/raw/master/out/artifacts/Servexpresso_jar/Servexpresso.jar)
+
+
 ## Service components
 All services have three components:
 
