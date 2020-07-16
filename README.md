@@ -167,4 +167,9 @@ The ```fromServletParams()``` method automatically converts a ```Map<String, Str
 
 #### 4. Creating your own implementation-specific methods
 You can create your own implementation-specific conversion method which must return ```InputParams```. You can call such methods
-in the same way as the above servlet-specific example.
+in the same way as the above servlet-specific example. More such implementation-specific utility methods may be added in the future.
+
+## Documentation
+[View the documentation here](https://raylabz.github.io/Servexpresso/).
+
+## License
