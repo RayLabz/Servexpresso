@@ -43,7 +43,7 @@ Import using Maven:
 Gradle:
 
 ```xml
-implementation 'com.raylabz:responz:1.0.1'
+implementation 'com.raylabz:servexpresso:1.0.0'
 ```
 
 Download and import .jar file:
