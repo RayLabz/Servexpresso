@@ -6,7 +6,7 @@
 
     <groupId>com.raylabz</groupId>
     <artifactId>servexpresso</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <build>
         <plugins>
@@ -138,7 +138,7 @@
         <dependency>
             <groupId>com.raylabz</groupId>
             <artifactId>responz</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.2</version>
         </dependency>
     </dependencies>
 
