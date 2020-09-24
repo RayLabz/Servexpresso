@@ -10,12 +10,13 @@ import com.raylabz.servexpresso.response.MissingParametersResponse;
 import com.raylabz.servexpresso.response.TypeMismatchResponse;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Models a service.
  * @author Nicos Kasenides
- * @version 1.0.0
+ * @version 1.1.0
  */
 public class Service {
 
@@ -34,6 +35,11 @@ public class Service {
      * A map of all received parameters.
      */
     private final InputParams receivedParams = new InputParams();
+
+    /**
+     * A map of special attributes passed to the service statically.
+     */
+    private HashMap<String, Object> specialAttributes = new HashMap<>();
 
     /**
      * The serviceable of this Service, which determines what happens when this service is called. Must be non-null before calling,
@@ -113,7 +119,7 @@ public class Service {
      * @param inputParams A map containing the parameters provided to this service.
      * @return Returns a Response object.
      */
-    public Response processRequest(InputParams inputParams) {
+    public Response processRequest(final InputParams inputParams) {
 
         //Parse the input parameters:
         for (Map.Entry<String, InputParam> inputParamEntry : inputParams.entrySet()) {
@@ -137,7 +143,7 @@ public class Service {
 
         //If no errors, serve but catch any exceptions that the service fails to catch:
         try {
-            return serviceable.serve(inputParams);
+            return serviceable.serve(inputParams, specialAttributes);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -156,6 +162,41 @@ public class Service {
             map.put(param.getName(), param);
         }
         return processRequest(map);
+    }
+
+    /**
+     * Sets a special attribute for this service.
+     * @param key The key of this attribute.
+     * @param value The value of this attribute.
+     */
+    public void setAttribute(String key, Object value) {
+        specialAttributes.put(key, value);
+    }
+
+    /**
+     * Retrieves the value of an attribute.
+     * @param key The key of the attribute to retrieve.
+     * @return Returns an Object.
+     */
+    public Object getAttribute(String key) {
+        return specialAttributes.get(key);
+    }
+
+    /**
+     * Removes a special attribute for this service.
+     * @param key The key of the attribute to remove.
+     */
+    public void removeAttribute(String key) {
+        specialAttributes.remove(key);
+    }
+
+    /**
+     * Checks if an attribute exists or not.
+     * @param key The key of the attribute.
+     * @return Returns true if the attribute exists, false otherwise.
+     */
+    public boolean attributeExists(String key) {
+        return specialAttributes.containsKey(key);
     }
 
     /**

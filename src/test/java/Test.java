@@ -62,7 +62,9 @@ public class Test {
                 .expectParam("number1", ParamType.INTEGER, true)
                 .expectParam("number2", ParamType.INTEGER, true)
                 .expectParam("number3", ParamType.INTEGER, false)
-                .implement(input -> {
+                .implement((input, attributes) -> {
+                    CustomObject customObject = (CustomObject) attributes.get("myCustomObject");
+                    System.out.println(customObject);
                     int number1 = input.getInt("number1");
                     int number2 = input.getInt("number2");
                     int number3 = 0;
@@ -85,6 +87,7 @@ public class Test {
         params.put(param2.getName(), param2);
         params.put(param3.getName(), param3);
 
+        addService.setAttribute("myCustomObject", new CustomObject(1, 2, 3));
         addService.processRequest(params);
 
         final Response addResponse = addService.processRequest(
